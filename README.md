@@ -13,6 +13,7 @@ Xuanhua Yin<sup>1</sup> · Runkai Zhao<sup>1</sup> · Lina Yao<sup>2,3</sup> · 
 [![arXiv](https://img.shields.io/badge/arXiv-2602.04512-b31b1b.svg)](https://arxiv.org/abs/2602.04512)
 [![Project Page](https://img.shields.io/badge/Project-Page-1f72b8.svg)](https://xuanhuayin.github.io/BrainVista/)
 [![Paper PDF](https://img.shields.io/badge/Paper-PDF-e34c26.svg)](https://arxiv.org/pdf/2602.04512)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab.svg)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.1%2B-ee4c2c.svg)
 
@@ -242,6 +243,11 @@ bash tests/smoke_test.sh             # synthetic data through tokenizers, export
   use the paper's rule t_j ≤ t_i, `--brain_self_attn 1`.
 * The paper does not specify how stimulus features are compressed to 512 / 256 / 512 dimensions.
   This repository uses training-split PCA (`preprocessing/train_pca.py`).
+
+## License
+
+The code is released under the [MIT License](LICENSE). Datasets, pretrained encoders and atlases remain
+subject to their original licenses and access terms.
 
 ## Citation
 
