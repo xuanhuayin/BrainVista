@@ -1,6 +1,18 @@
 __pycache__/
 *.pyc
 *.pyo
-predictions/
-*.npy
 .idea/
+.vscode/
+*.egg-info/
+
+# Data, features, checkpoints and outputs are never committed.
+*.npy
+*.npz
+*.pt
+*.pth
+*.h5
+work/
+checkpoints/
+predictions/
+eval_output/
+analysis_output/

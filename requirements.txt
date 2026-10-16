@@ -1,3 +1,16 @@
-torch>=2.0.0
-numpy>=1.24.0
-tqdm>=4.60.0
+# Core (training, evaluation, inference, analyses)
+torch>=2.1
+numpy>=1.24
+scipy>=1.10
+tqdm>=4.60
+scikit-learn>=1.2      # emotion clustering
+matplotlib>=3.7        # optional plots
+
+# Data preparation (optional)
+nilearn>=0.10          # Schaefer-2018 labels
+nibabel>=5.0           # CIFTI surface data (HAD)
+h5py>=3.8              # Algonauts 2025 release files
+
+# Stimulus feature extraction (optional; ffmpeg must be on PATH)
+transformers>=4.53     # V-JEPA 2, Wav2Vec2-BERT 2.0, Llama 3.2
+decord>=0.6

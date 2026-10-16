@@ -1,42 +1,13 @@
 #!/bin/bash
+# Long-horizon rollout inference (paper Eq. 2): trajectories + Spatial Mixer attention per run.
+#   bash scripts/inference.sh CONFIG [--anchors tile|first|all] [--horizon 20]
 set -euo pipefail
+source "$1"; shift; source "$(dirname "$0")/_common.sh"
+TAG=${TAG:-brainvista}
 
-# ========= BrainVista Inference =========
-# Long-horizon autoregressive rollout prediction
-
-# ========= Paths (modify these) =========
-DATA_ROOT="/path/to/data"
-
-VIDEO_ROOT="$DATA_ROOT/features/video_2hz"
-AUDIO_ROOT="$DATA_ROOT/features/audio_2hz"
-TEXT_ROOT="$DATA_ROOT/features/text_2hz"
-Z_ROOT="./z_cache"
-
-TEST_LIST="$DATA_ROOT/test_list.txt"
-
-TOKENIZER_CKPT_DIR="."
-TOKENIZER_NAME_TEMPLATE="ckpt_tokenizer_{parcel}/best.pt"
-
-PRED_CKPT="./ckpt_predictor/predictor_best.pt"
-OUT_DIR="./predictions"
-
-echo "=============================================="
-echo "BrainVista Inference"
-echo "  PRED_CKPT:  $PRED_CKPT"
-echo "  TEST_LIST:  $TEST_LIST"
-echo "  OUT_DIR:    $OUT_DIR"
-echo "=============================================="
-
-python -u inference.py \
-  --predictor_ckpt "$PRED_CKPT" \
-  --video_root "$VIDEO_ROOT" \
-  --audio_root "$AUDIO_ROOT" \
-  --text_root  "$TEXT_ROOT"  \
-  --z_root     "$Z_ROOT"     \
-  --run_list_file "$TEST_LIST" \
-  --subjects sub-01 \
-  --parcels Cont DorsAttn SalVentAttn Limbic SomMot Default Vis \
-  --tokenizer_ckpt_dir "$TOKENIZER_CKPT_DIR" \
-  --tokenizer_name_template "$TOKENIZER_NAME_TEMPLATE" \
-  --K_horizon 20 \
-  --out_dir "$OUT_DIR"
+for SUBJ in "${SUBJECTS[@]}"; do
+  data_args "$SUBJ"
+  $PY -u inference.py "${DATA_ARGS[@]}" "${STIM_ARGS[@]}" \
+    --predictor_ckpt "$CKPT_ROOT/$SUBJ/predictor_$TAG/predictor_best.pt" --run_list_file "$TEST_LIST" \
+    --horizon 20 --anchors tile --out_dir "$OUT_ROOT/predictions_$TAG" "$@"
+done
